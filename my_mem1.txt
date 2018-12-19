@@ -1,0 +1,23 @@
+	load R1, Base		
+	load R2, exP		
+	mov R3, R1		
+	addi R2, -1		
+	
+loop:
+	beqz R2, 4		
+	mul R3, R1		
+	addi R2, -1		
+	jump loop		
+done:	
+	stor R3, result			
+	load R2, Q		
+	
+loop2:	
+	sub R3, R2		
+	sltz R4, R3		
+	bnez R4, done2	
+	jump loop2		
+done2:		
+	stor R3, result		
+	
+	end: jump end		

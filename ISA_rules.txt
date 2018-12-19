@@ -1,0 +1,12 @@
+ISA Rules"
+
+1) R0 reserved for value 0. Also can be used as reference to 0x0000
+    which is the start address for data
+
+2) Data mem starts at 0x0000
+
+3) bez, sltz functions imply register comparison with R0, the zero condition
+
+4) sub functon only for register arithmetic
+
+5) To save space destination Rx is also the destination result for arrithmetic functions such as add, sub, and mul.

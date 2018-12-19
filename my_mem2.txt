@@ -1,0 +1,54 @@
+    load R1, 0x0004    # load match word in R1
+    load R5, 0x0008    # load best matching score in R5
+    init R6, 0x0010    # load address of pattern array in R6
+    
+loop1:
+    load R2, 0x0010    # load word from array
+    
+    xor  R2, R1       # compare word to match with word from array
+
+    init R2, 0         # we will count the fbits in R2 (hamming distance)
+count:    
+    beqz  R2, endcount
+    mov R4, R2
+    andi R4, 1         # test the rightmost bit
+    add  R2, R4       # if it's 1, count one more bit    
+next:        
+    srl  R2, 1         # move next bit to the right    
+    jump count          # repeat
+endcount:    
+    init R4, 32
+    sub R4, R2        # calculate score = 32 - hamming distance
+    sub R5, R4
+    sltz R5, R4       # if the score is below the best, skip
+    bnez R5, skip
+    mov R5, R4        # else, save as best score
+
+skip:
+    stor R4, 0x0080    # save score in score array
+
+    addi R6, 4         # advance to next position in array
+    addi R3, -1        # repeat for all words in array
+    bnez R3, loop1
+
+    init R6, 0x0004    # load address of best score in R6
+    stor R5, 0x0004    # save best score
+
+    init R6, 0x005C    # save start address of score array in R6
+    init R1, 20        # number of words in array in R1
+    init R3, 0         # we will count the number of highest scores with R3
+loop2:
+    load R2, R6        # load score from array
+    sub  R5, R2
+    bnez R5, nxtpos    # if it's not equal to the best score, go to next position
+    addi R3, 1         # if they are equal, increment number of highest scores
+nxtpos:
+    addi R6, 4         # advance to next position in array
+    addi R1, -1        # repeat for all words in array
+    bnez R1, loop2
+
+    init R6, 0x2008     # load address of best count in R6
+    stor R3, 0x0010     # save best count
+
+
+end: jump end

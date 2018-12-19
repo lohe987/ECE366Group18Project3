@@ -1,0 +1,15 @@
+    init    Rx, imm
+    load    Rx, (Ry)
+    stor    Rx, (Ry)
+    mov     Rx, Ry
+    add     Rx, Ry
+    addi    Rx, imm
+    sub     Rx, Ry
+    mul     Rx, Ry
+    jump    imm
+    beqz    Rx, imm
+    bnez    Rx, imm
+    sltz    Rx, Ry
+    xor     Rx, Ry
+    andi    Rx, imm
+    srl     Rx, imm
